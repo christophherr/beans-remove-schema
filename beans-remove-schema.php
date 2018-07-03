@@ -17,6 +17,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * GitHub Plugin URI: christophherr/beans-simple-hook-guide
  * Text Domain: beans-remove-schema
+ * Requires PHP: 5.6
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -24,7 +25,6 @@
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
  */
 
 namespace ChristophHerr\BeansRemoveSchema;
@@ -94,6 +94,19 @@ function admin_notice_message() {
 }
 
 /**
+ * Get the plugin's absolute directory path.
+ *
+ * @since  1.0.0
+ * @ignore
+ * @access private
+ *
+ * @return string
+ */
+function _get_plugin_directory() {
+	return __DIR__;
+}
+
+/**
  * Launch the plugin
  *
  * @since 1.0.0
@@ -101,9 +114,16 @@ function admin_notice_message() {
  * @return void
  */
 function launch() {
+
 	if ( ! function_exists( '\beans_define_constants' ) ) {
 		return;
 	}
+
+	if ( is_admin() ) {
+		return;
+	}
+
+	require __DIR__ . '/src/remove-attributes.php';
 
 	remove_schema();
 }
@@ -122,73 +142,3 @@ function setup() {
 	add_action( 'init', __NAMESPACE__ . '\launch' );
 }
 
-/**
- * Remove Schema markup.
- *
- * @since 1.0.0
- *
- * @return void
- */
-function remove_schema() {
-	beans_remove_attribute( 'beans_header', 'itemscope' );
-	beans_remove_attribute( 'beans_header', 'itemtype' );
-	beans_remove_attribute( 'beans_body', 'itemscope' );
-	beans_remove_attribute( 'beans_body', 'itemtype' );
-	beans_remove_attribute( 'beans_site_title_link', 'itemprop' );
-	beans_remove_attribute( 'beans_site_title_tag', 'itemprop' );
-	beans_remove_attribute( 'beans_primary_menu', 'itemscope' );
-	beans_remove_attribute( 'beans_primary_menu', 'itemtype' );
-	remove_itemprop_from_menu_items( 'primary' );
-	beans_remove_attribute( 'beans_content', 'itemprop' );
-	beans_remove_attribute( 'beans_content', 'itemscope' );
-	beans_remove_attribute( 'beans_content', 'itemtype' );
-	beans_remove_attribute( 'beans_sidebar_primary', 'itemscope' );
-	beans_remove_attribute( 'beans_sidebar_primary', 'itemtype' );
-	beans_remove_attribute( 'beans_sidebar_secondary', 'itemscope' );
-	beans_remove_attribute( 'beans_sidebar_secondary', 'itemtype' );
-	beans_remove_attribute( 'beans_post', 'itemscope' );
-	beans_remove_attribute( 'beans_post', 'itemtype' );
-	beans_remove_attribute( 'beans_post', 'itemprop' );
-	beans_remove_attribute( 'beans_post_title', 'itemprop' );
-	beans_remove_attribute( 'beans_post_body', 'itemprop' );
-	beans_remove_attribute( 'beans_post_image_item', 'itemprop' );
-	beans_remove_attribute( 'beans_post_content', 'itemprop' );
-	beans_remove_attribute( 'beans_post_meta_date', 'itemprop' );
-	beans_remove_attribute( 'beans_post_meta_author', 'itemprop' );
-	beans_remove_attribute( 'beans_post_meta_author', 'itemscope' );
-	beans_remove_attribute( 'beans_post_meta_author', 'itemtype' );
-	beans_remove_attribute( 'beans_post_meta_author_name_meta', 'itemprop' );
-	beans_remove_attribute( 'beans_comment', 'itemprop' );
-	beans_remove_attribute( 'beans_comment', 'itemscope' );
-	beans_remove_attribute( 'beans_comment', 'itemtype' );
-	beans_remove_attribute( 'beans_comment_title', 'itemprop' );
-	beans_remove_attribute( 'beans_comment_title', 'itemscope' );
-	beans_remove_attribute( 'beans_comment_title', 'itemtype' );
-	beans_remove_attribute( 'beans_comment_time', 'itemprop' );
-	beans_remove_attribute( 'beans_comment_body', 'itemprop' );
-	beans_remove_attribute( 'beans_footer', 'itemscope' );
-	beans_remove_attribute( 'beans_footer', 'itemtype' );
-}
-
-/**
- * Remove itemprop from menu items.
- *
- * @since 1.0.0
- *
- * @param string $menu_location Menu location.
- * @return void
- */
-function remove_itemprop_from_menu_items( $menu_location ) {
-	$locations = get_nav_menu_locations();
-
-	if ( $locations && isset( $locations[ $menu_location ] ) ) {
-		$menu_object = wp_get_nav_menu_object( $locations[ $menu_location ] );
-		$menu_items  = wp_get_nav_menu_items( $menu_object->term_id );
-
-		foreach ( $menu_items as $menu_item ) {
-			$menu_id = $menu_item->ID;
-			beans_remove_attribute( 'beans_menu_item[_' . $menu_id . ']', 'itemprop' );
-			beans_remove_attribute( 'beans_menu_item_link[_' . $menu_id . ']', 'itemprop' );
-		}
-	}
-}

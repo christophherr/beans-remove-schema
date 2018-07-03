@@ -1,0 +1,41 @@
+# Copyright (C) 2018 Beans Remove Schema
+# This file is distributed under the same license as the Beans Remove Schema package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Beans Remove Schema 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/christophherr/beans-remove-"
+"schema/issues\n"
+"POT-Creation-Date: 2018-07-03 19:29:45+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#. translators: Link to the Beans website.
+#: beans-remove-schema.php:84
+msgid ""
+"Sorry, you can't use the Beans Remove Schema Plugin unless the <a href=\"%s"
+"\">Beans Framework</a> is active. The plugin has been deactivated."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Beans Remove Schema"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/christophherr/beans-remove-schema"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Remove the built-in Schema.org markup from Beans."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Christoph Herr"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.christophherr.com/"
+msgstr ""
